@@ -52,7 +52,7 @@ class FiniteVolumeDiscretization(object):
         self.dt = dt
 
 
-    def assembleLineareEquationSystemCore(self, state_vars, diffusivities, sources, fluxes, t):
+    def assembleLineareEquationSystemCore(self, diffusivities, sources, fluxes):
         # get the diffusivities
         D1 = diffusivities[:, :-1].ravel()
         D2 = diffusivities[:, 1:].ravel()
@@ -73,8 +73,8 @@ class FiniteVolumeDiscretization(object):
         return (ld, ud, rhs)
 
 
-    def assembleLES_IE(self, state_vars, diffusivities, sources, fluxes, t):
-        ld, ud, rhs = self.assembleLineareEquationSystemCore(state_vars, diffusivities, sources, fluxes, t)
+    def assembleLES_IE(self, state_vars, diffusivities, sources, fluxes):
+        ld, ud, rhs = self.assembleLineareEquationSystemCore(diffusivities, sources, fluxes)
         md = (1. - ld - ud)
         # reform diagonal to fit scipy linalg convention
         ld = numpy.hstack((ld[1:], [0]))
@@ -82,8 +82,8 @@ class FiniteVolumeDiscretization(object):
         return (ld, md, ud, rhs+state_vars.clip(0))
 
 
-    def assembleLES_CN(self, state_vars, diffusivities, sources, fluxes, t):
-        A_ld, A_ud, rhs = self.assembleLineareEquationSystemCore(state_vars, diffusivities, sources, fluxes, t)
+    def assembleLES_CN(self, state_vars, diffusivities, sources, fluxes):
+        A_ld, A_ud, rhs = self.assembleLineareEquationSystemCore(diffusivities, sources, fluxes)
 
         # IMPLICIT PART of the crank-nicolson stencil:
         A_ld = 0.5*A_ld
