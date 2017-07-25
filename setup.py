@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='pyrds',
-      version='1.0',
+      version='1.0.1',
       description='python implementation of a finitie volume discretization to solve the reaction diffusion equation',
       author='Matthias Zimmermann',
       author_email='matthias.zimmermann@eawag.ch',
