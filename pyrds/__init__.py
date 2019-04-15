@@ -117,12 +117,11 @@ def lapack_tridiag(ld, md, ud, rhs):
 class PyRDSTestcase(object):
     def __init__(self):
         self.fvd = FiniteVolumeDiscretization(0.0,4.0,500,numpy.linspace(0.0, 4.0, 500+1, endpoint=True), numpy.linspace(8.0, 2.0, 500+1, endpoint=True))
-        self.dt = 0.01
         self.fvd.precondition(6, 0.01)
         self.diffusivities = numpy.tile([0.02], [6,501])
         self.sources = numpy.zeros((6,500))
         self.fluxes = numpy.zeros((6,501))
-        self.state_vars = numpy.tile(numpy.linspace(0.0, 5.0, 500, endpoint=True), [6,1])
+        self.state_vars = numpy.tile(numpy.linspace(0.0, 5.0, 500, endpoint=True), [6,1]).reshape((500*6,1))
 
     def run(self, n):
         for i in range(n):
