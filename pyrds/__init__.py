@@ -125,7 +125,6 @@ class PyRDSTestcase(object):
         self.state_vars = numpy.tile(numpy.linspace(0.0, 5.0, 500, endpoint=True), [6,1])
 
     def run(self, n):
-        t_grid = numpy.arange()
         for i in range(n):
             self.state_vars = lapack_tridiag(*assembleLES_CN(self.state_vars, self.diffusivities, self.sources, self.fluxes))
         return self.state_vars
