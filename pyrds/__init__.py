@@ -118,7 +118,12 @@ class PyRDSTestcase(object):
     def __init__(self):
         self.fvd = FiniteVolumeDiscretization(0.0,4.0,500,numpy.linspace(0.0, 4.0, 500+1, endpoint=True), numpy.linspace(8.0, 2.0, 500+1, endpoint=True))
         self.fvd.precondition(6, 0.01)
-        self.diffusivities = numpy.tile([0.02], [501,6])
-        self.sources = numpy.zeros((500,6))
-        self.fluxes = numpy.zeros((501,6))
-        self.state_vars = numpy.tile(numpy.linspace(0.0, 5.0, 500, endpoint=True), [1,6])
+        self.diffusivities = numpy.tile([0.02], [6,501])
+        self.sources = numpy.zeros((6,500))
+        self.fluxes = numpy.zeros((6,501))
+        self.state_vars = numpy.tile(numpy.linspace(0.0, 5.0, 500, endpoint=True), [6,1])
+
+    def run(self):
+        for t in t_grid:
+            self.state_vars = lapack_tridiag(*assembleLES_CN(self.state_vars, self.diffusivities, self.sources, self.fluxes))
+        return self.state_vars
