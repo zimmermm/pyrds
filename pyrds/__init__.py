@@ -126,5 +126,5 @@ class PyRDSTestcase(object):
 
     def run(self, n):
         for i in range(n):
-            self.state_vars = lapack_tridiag(*fvd.assembleLES_CN(self.state_vars, self.diffusivities, self.sources, self.fluxes))
+            self.state_vars = lapack_tridiag(*self.fvd.assembleLES_CN(self.state_vars, self.diffusivities, self.sources, self.fluxes))
         return self.state_vars
